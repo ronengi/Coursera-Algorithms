@@ -5,8 +5,6 @@
  */
 package union_find;
 
-import Standard_Libraries.StdIn;
-import Standard_Libraries.StdOut;
 
 /**
  *
@@ -15,13 +13,16 @@ import Standard_Libraries.StdOut;
 public class QuickUnionUF extends UF {
 
     private int[] id;
+    private int[] sz;
 
     
     public QuickUnionUF(int N) {
         super(N);
         id = new int[N];
+        sz = new int[N];
         for (int i = 0; i < N; ++i) {
             id[i] = i;
+            sz[i] = 1;
         }
     }
 
@@ -47,7 +48,19 @@ public class QuickUnionUF extends UF {
     public void union(int p, int q) {
         int i = root(p);
         int j = root(q);
-        id[i] = j;
+        if (i == j)
+            return;
+        
+        // improvement 1: weighting        
+        if (sz[i] < sz[j]) {
+            id[i] = j;
+            sz[j] += sz[i];
+        }
+        else {
+            id[j] = i;
+            sz[i] += sz[j];
+        }
+        
     }
 
     
