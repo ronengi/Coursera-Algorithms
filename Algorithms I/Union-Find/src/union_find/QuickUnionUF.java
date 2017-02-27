@@ -30,6 +30,8 @@ public class QuickUnionUF extends UF {
     // chase parent pointers untill reach root
     private int root(int i) {
         while (i != id[i]) {
+            // improvement 2: path compression (only one extra line of code)
+            id[i] = id[id[i]];
             i = id[i];
         }
         return i;
